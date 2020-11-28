@@ -2,9 +2,9 @@
 
 > 互斥锁 Mutex 就提供两个方法 Lock 和 Unlock：
 >
-> 进入临界区之前调用 Lock 方法，
+> 进入临界区之前调用 Lock 方法，退出临界区的时候调用 Unlock 方法.
 >
-> 退出临界区的时候调用 Unlock 方法
+> 当一个 goroutine 通过调用 Lock 方法获得了这个锁的拥有权后， 其它请求锁的 goroutine 就会阻塞在 Lock 方法的调用上，直到锁被释放并且自己获取到了这个锁的拥有权。
 
 ## Tools
 
@@ -32,7 +32,7 @@ A1. [Mutex fairness](https://github.com/golang/go/blob/b94346e69bb01e1cd522ddfa9
 >
 > 正常状态有很好的性能表现，饥饿模式也是非常重要的，因为它能阻止尾部延迟的现象。
 
-## Reference
+## References
 
 * [package sync/mutex](https://golang.org/src/sync/mutex.go)
 * [sync.mutex 源代码分析](https://colobu.com/2018/12/18/dive-into-sync-mutex/)
