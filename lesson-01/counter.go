@@ -86,8 +86,33 @@ func GetCounter() uint64 {
 	fmt.Print(counter.Count())
 	return counter.Count()
 }
+
+// omitLock lesson-03
+// fatal error: sync: unlock of unlocked mutex
+func omitLock() {
+	var mu sync.Mutex
+	defer mu.Unlock() // panic: unlock 一个未加锁的 mutex
+	fmt.Println("hello world!")
+}
+
+// copyMutex 复制一个带状态的 mutex lesson-03
+// fatal error: all goroutines are asleep - deadlock!
+func copyMutex(c Counter) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	fmt.Println("in copyLock!")
+}
 func main() {
 	NoLockCounter()
 	LockCounter()
 	GetCounter()
+	// omitLock()
+
+	var c Counter
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.count++
+
+	// copyMutex(c)
 }
